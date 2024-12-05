@@ -1,7 +1,8 @@
 // ignore_for_file: depend_on_referenced_packages
 
-import 'package:carrental/presentation/pages/maps_details_page.dart';
+// import 'package:carrental/presentation/pages/maps_details_page.dart';
 import 'package:carrental/presentation/pages/onboarding_page.dart';
+// import 'package:carrental/presentation/pages/onboarding_page.dart';
 import 'package:flutter/material.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: MapsDetailsPage(),
+      home: const OnboardingPage(),
     );
   }
 }

@@ -1,14 +1,44 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, prefer_interpolation_to_compose_strings
 
 import 'package:carrental/data/models/car_model.dart';
+import 'package:carrental/presentation/pages/maps_details_page.dart';
 import 'package:carrental/presentation/widgets/car_card.dart';
 import 'package:carrental/presentation/widgets/more_cards.dart';
 import 'package:flutter/material.dart';
 
-class CardDetailsPage extends StatelessWidget {
+class CardDetailsPage extends StatefulWidget {
   final CarModel car;
 
   const CardDetailsPage({super.key, required this.car});
+
+  @override
+  State<CardDetailsPage> createState() => _CardDetailsPageState();
+}
+
+class _CardDetailsPageState extends State<CardDetailsPage>
+    with SingleTickerProviderStateMixin {
+  AnimationController? _controller;
+  Animation<double>? _animation;
+
+  @override
+  void initState() {
+    _controller =
+        AnimationController(duration: const Duration(seconds: 3), vsync: this);
+
+    _animation = Tween<double>(begin: 1.0, end: 1.5).animate(_controller!)
+      ..addListener(() {
+        setState(() {});
+      });
+
+    _controller!.forward();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller!.forward();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +53,10 @@ class CardDetailsPage extends StatelessWidget {
         children: [
           CarCard(
             car: CarModel(
-              model: car.model,
-              distance: car.distance,
-              fuelCapacity: car.fuelCapacity,
-              pricePerHour: car.fuelCapacity,
+              model: widget.car.model,
+              distance: widget.car.distance,
+              fuelCapacity: widget.car.fuelCapacity,
+              pricePerHour: widget.car.fuelCapacity,
             ),
           ),
           SizedBox(height: 20),
@@ -68,20 +98,32 @@ class CardDetailsPage extends StatelessWidget {
                 ),
                 SizedBox(width: 20),
                 Expanded(
-                  child: Container(
-                    height: 170,
-                    decoration: BoxDecoration(
+                  child: GestureDetector(
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                MapsDetailsPage(car: widget.car))),
+                    child: Container(
+                      height: 170,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 10,
+                              spreadRadius: 5,
+                            )
+                          ]),
+                      child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
-                        image: DecorationImage(
-                            image: AssetImage("assets/images/maps.png"),
-                            fit: BoxFit.cover),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black12,
-                            blurRadius: 10,
-                            spreadRadius: 5,
-                          )
-                        ]),
+                        child: Transform.scale(
+                          scale: _animation!.value,
+                          alignment: Alignment.center,
+                          child: Image.asset("assets/images/maps.png"),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -93,28 +135,28 @@ class CardDetailsPage extends StatelessWidget {
               children: [
                 MoreCards(
                   car: CarModel(
-                    model: car.model + "-1",
-                    distance: car.distance + 100,
-                    fuelCapacity: car.fuelCapacity + 100,
-                    pricePerHour: car.pricePerHour + 10,
+                    model: widget.car.model + "-1",
+                    distance: widget.car.distance + 100,
+                    fuelCapacity: widget.car.fuelCapacity + 100,
+                    pricePerHour: widget.car.pricePerHour + 10,
                   ),
                 ),
                 SizedBox(height: 5),
                 MoreCards(
                   car: CarModel(
-                    model: car.model + "-2",
-                    distance: car.distance + 200,
-                    fuelCapacity: car.fuelCapacity + 200,
-                    pricePerHour: car.pricePerHour + 20,
+                    model: widget.car.model + "-2",
+                    distance: widget.car.distance + 200,
+                    fuelCapacity: widget.car.fuelCapacity + 200,
+                    pricePerHour: widget.car.pricePerHour + 20,
                   ),
                 ),
                 SizedBox(height: 5),
                 MoreCards(
                   car: CarModel(
-                    model: car.model + "-3",
-                    distance: car.distance + 300,
-                    fuelCapacity: car.fuelCapacity + 300,
-                    pricePerHour: car.pricePerHour + 30,
+                    model: widget.car.model + "-3",
+                    distance: widget.car.distance + 300,
+                    fuelCapacity: widget.car.fuelCapacity + 300,
+                    pricePerHour: widget.car.pricePerHour + 30,
                   ),
                 ),
               ],
