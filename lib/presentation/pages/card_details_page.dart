@@ -36,7 +36,7 @@ class _CardDetailsPageState extends State<CardDetailsPage>
 
   @override
   void dispose() {
-    _controller!.forward();
+    _controller?.dispose();
     super.dispose();
   }
 
