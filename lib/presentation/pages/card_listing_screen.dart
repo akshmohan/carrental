@@ -1,30 +1,38 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, unused_import, depend_on_referenced_packages
 
 import 'package:carrental/data/models/car_model.dart';
 import 'package:carrental/presentation/widgets/car_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../bloc/car_bloc.dart';
+import '../bloc/car_state.dart';
 
 class CardListingScreen extends StatelessWidget {
   CardListingScreen({super.key});
 
-  final List<CarModel> cars = [
-    CarModel(model: "Audi", distance: 870, fuelCapacity: 50, pricePerHour: 45),
-    CarModel(model: "Audi", distance: 870, fuelCapacity: 50, pricePerHour: 45),
-    CarModel(model: "Audi", distance: 870, fuelCapacity: 50, pricePerHour: 45),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Choose your car"),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-      ),
-      body: ListView.builder(
-        itemCount: cars.length,
-        itemBuilder: (context, index) => CarCard(car: cars[index]),
-      ),
-    );
+        appBar: AppBar(
+          title: Text("Choose your car"),
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+        ),
+        body: BlocBuilder<CarBloc, CarState>(
+          builder: (context, state) {
+            if (state is CarLoading) {
+              return Center(child: CircularProgressIndicator());
+            } else if (state is CarLoaded) {
+              return ListView.builder(
+                itemCount: state.cars.length,
+                itemBuilder: (context, index) => CarCard(car: state.cars[index]),
+              );
+            } else if (state is CarLoadError) {
+              return Center(child: Text(state.message));
+            } else {
+              return Center(child: Text("Something went wrong"));
+            }
+          },
+        ));
   }
 }
