@@ -32,7 +32,12 @@ class CarCard extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            Image.asset('assets/images/car_image.png'),
+            if (car.model == 'Toyota')
+              Image.asset('assets/images/car_image.png')
+            else if (car.model == 'Mercedes')
+              Image.asset('assets/images/mercedes.png')
+            else if (car.model == 'Kia')
+              Image.asset('assets/images/kia.png'),
             Text(
               car.model,
               style: const TextStyle(

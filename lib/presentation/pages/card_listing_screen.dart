@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, unused_import, depend_on_referenced_packages
+// ignore_for_file: prefer_const_constructors, unused_import, depend_on_referenced_packages, prefer_const_constructors_in_immutables
 
 import 'package:carrental/data/models/car_model.dart';
 import 'package:carrental/presentation/widgets/car_card.dart';
